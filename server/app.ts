@@ -1,9 +1,9 @@
 import express from 'express';
-import { profile } from './services/profile';
-import { purchasedList } from './services/purchased-list';
+import { profile } from './endpoints/profile';
+import { purchasedList } from './endpoints/purchased-list';
 import http from 'http';
 import cors from 'cors';
-import { purchasedItemStatus } from './services/purchased-item-status';
+import { itemInfo } from './endpoints/item-info';
 
 const app = express();
 
@@ -53,5 +53,6 @@ server.on('error', onError);*/
 
 
 app.get('/profile', profile);
-app.post('/purchased-list/:id', purchasedList);
-app.post('/purchased-item-status', purchasedItemStatus);
+app.post('/purchased-list', purchasedList);
+app.post('/item-info', itemInfo);
+

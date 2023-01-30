@@ -1,0 +1,39 @@
+.mainBody {
+    margin: 7%;
+    background-color: white;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+}
+
+.icoX {
+    margin: auto;
+}
+.xIcon {
+    width: 30px;
+    height: auto;
+    margin: 0 10px 0 0;
+}
+
+.profileImage {
+    border-radius: 50%;
+    width: 180px;
+    height: 180px;
+    margin: 25px;
+}
+
+.profileInfo h2,
+.profileInfo p{
+    margin: 20px 0;
+}
+
+.accountWarning {
+    display: flex;
+}
+
+.warningMessage{
+    margin: auto;
+    font-size: 14px;
+    font-weight: bold;
+}
+

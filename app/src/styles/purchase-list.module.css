@@ -1,0 +1,37 @@
+.buyItemContent{
+    flex-direction: column;
+    margin: 7%;
+    background-color: white;
+    border-radius: 4px;
+    display: flex;
+}
+
+.itemContainer{
+    display: flex;
+    gap: 30px;
+    width: 100%;
+}
+
+.productImage {
+    max-width: 101px;
+    object-fit: contain;
+    width: auto;
+    height: auto;
+    margin: 0 0 0 20px;
+}
+  
+.itemMoreDetails {
+    margin: auto 30px auto auto;  
+}
+  
+.priceNumber{
+    color: #00a650
+}
+  
+.buyItemContent {
+    flex-direction: column;
+    margin: 7%;
+    background-color: white;
+    border-radius: 4px;
+    display: flex;
+}

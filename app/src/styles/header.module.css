@@ -1,0 +1,33 @@
+
+/* Header Styles */
+
+.yellowHeader {
+    grid-area: header;
+    display: flex;
+    background-color: #fff059;
+}
+  
+.mercadolibreLogo {
+    height: 34px;
+    top: 11px;
+    width: 134px;
+    margin: 20px;
+}
+
+.profileLink{
+    display: flex;
+    margin: 0 0 0 auto;
+    width: 10%;
+    color: #666;
+}
+.profileLink:hover {
+    color: #3483fa;
+}
+.profileLink p {
+    margin: auto 10px;
+}
+  
+.profileIcon{
+    width: 40px;
+    height: auto;
+}

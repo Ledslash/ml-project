@@ -1,0 +1,30 @@
+.mainBodyContent {
+    margin: 7%;
+    background-color: white;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+}
+
+.boughtItem {
+    display: flex;
+}
+  
+.itemImg {
+    margin: 10px;
+}
+  
+.priceNumber {
+    color: #00a650;
+    font-weight: bold;
+}
+
+.deliveryStatusGreen,
+.paymentStatusGreen {
+    color: #00a650
+}
+  
+.deliveryStatusRed,
+.paymentStatusRed {
+    color: red;
+}
