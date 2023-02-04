@@ -2,7 +2,7 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from '@next/font/google'
+import { Montserrat } from '@next/font/google'
 
 // Styles
 import styles from '../styles/index.module.css';
@@ -13,8 +13,9 @@ import sidebarStyles from '../styles/sidebar.module.css';
 import profileSvg from '../assets/profile.svg';
 import bagSvg from '../assets/bag.svg';
 import { createContext, useState } from 'react'
+import burgerMenuSVG from '../assets/burgerMenu.svg';
 
-const inter = Inter({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin'] })
 
 interface UserContextInterface {
   id_usuario: null | number;
@@ -27,6 +28,8 @@ export const UserContext = createContext({});
 
 export default function App({ Component, pageProps }: AppProps) {
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  
   const changeUser = (userId: number) => {
     setUserState(() => {
       return{
@@ -44,7 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className={montserrat.className}>
             <div id={styles.webBody}>
                 <header className={headerStyles.yellowHeader}>
                     <img className={headerStyles.mercadolibreLogo} src="https://http2.mlstatic.com/frontend-assets/ml-web-navigation/ui-navigation/5.21.21/mercadolibre/logo__large_plus@2x.png"></img>
@@ -52,16 +55,22 @@ export default function App({ Component, pageProps }: AppProps) {
                         <Image src={profileSvg} alt="Profile Icon SVG" className={headerStyles.profileIcon} priority />
                         <p>Mi Perfil</p>
                     </a>
+                    <Image onClick={() => { setIsSidebarOpen(true) }} className={headerStyles.burgerMenuIcon} src={burgerMenuSVG} alt="Burger Icon" priority />
                 </header>
-                <section className={sidebarStyles.sidebar}>
-                    <a className={sidebarStyles.sidebarItem} href={`/profile`}>
-                        <Image src={profileSvg} alt="Profile Icon SVG" priority />
-                        <p>Informacion General</p>
-                    </a>
-                    <a className={sidebarStyles.sidebarItem} href={`/purchase-list`}>
-                        <Image src={bagSvg} alt="Bag SVG" priority />
-                        <p>Mis Compras</p>
-                    </a>
+                <section className={`${sidebarStyles.sidebarOverflow} ${isSidebarOpen ? sidebarStyles.active : ''}`}>
+                  <div className={sidebarStyles.sidebar}>
+                        <div className={sidebarStyles.closeIcon}>
+                            <p onClick={() => { setIsSidebarOpen(false) }} >X</p>
+                        </div>
+                        <a className={sidebarStyles.sidebarItem} href={`/profile`}>
+                            <Image src={profileSvg} alt="Profile Icon SVG" priority />
+                            <p>Informacion General</p>
+                        </a>
+                        <a className={sidebarStyles.sidebarItem} href={`/purchase-list`}>
+                            <Image src={bagSvg} alt="Bag SVG" priority />
+                            <p>Mis Compras</p>
+                        </a>
+                  </div>
                 </section>
                 <section className={styles.mainBody}>
                   <UserContext.Provider value={userState}>

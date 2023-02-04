@@ -1,8 +1,13 @@
-.sidebar {
+.sidebarOverflow {
     grid-area: sidebar;
     background-color: white;
+}
+.sidebar {
     display: flex;
     flex-direction: column;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
 }
 
 .sidebarItem {
@@ -15,4 +20,36 @@
   
 .sidebarItem:hover {
     color: #3483fa;
+}
+
+.closeIcon {
+    display: none;
+}
+
+/* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */ 
+
+@media only screen and (max-width: 600px) {
+    .sidebarOverflow {
+        position: fixed;
+        height: 100%;
+        top: 0;
+        left: -100%;
+        z-index: 1;
+        transition: 0.5s;
+        width: 100%;
+        background-color: #656565ba;
+    }
+    .closeIcon {
+        display: initial;
+        margin: 0 30px;
+        text-align: end;
+    }
+    .sidebar {
+        width: 77%;
+        height: 100%;
+        background-color: white;
+    }
+    .active{
+        left: 0;
+    }
 }

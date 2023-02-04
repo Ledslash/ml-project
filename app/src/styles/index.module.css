@@ -21,13 +21,21 @@
   border-color: transparent;
   color: #fff;
   border-radius: 10px;
-  padding: 20px 80px;
-  font-weight: bold;
+  padding: 20px 60px;
   font-size: 20px;
 }
+
 .blueBtn:hover{
   cursor: pointer;
   background-color: #2968c8;
+}
+
+@media only screen and (max-width: 600px) {
+  #webBody {
+    grid-template-areas: 
+      "header header"
+      "main main";
+  }
 }
 
 /*.loading{

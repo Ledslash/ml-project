@@ -24,8 +24,8 @@ export interface PurchaseList {
     total: string;
     offset: string;
     limit: string;
-    data?: PurchaseItem
-    itemList?: PurchaseItem
+    data?: PurchaseItem[]
+    itemList?: PurchaseItem[]
 }
 export interface PurchaseItem {
     id_compra: number;

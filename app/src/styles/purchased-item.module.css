@@ -6,17 +6,27 @@
     flex-direction: row;
 }
 
+.itemTitle{
+    font-weight: 300;
+}
+
 .boughtItem {
-    display: flex;
+    display: grid;
+    padding: 20px;
+    grid-template-columns: 3fr 5fr 3fr;
+    gap: 30px;
+    grid-template-areas: 
+        "item-image item-details item-sale-details"
 }
   
 .itemImg {
     margin: 10px;
+    grid-area: item-image;
 }
   
 .priceNumber {
     color: #00a650;
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .deliveryStatusGreen,
@@ -27,4 +37,65 @@
 .deliveryStatusRed,
 .paymentStatusRed {
     color: red;
+}
+
+.paymentStatusGreen,
+.paymentStatusRed,
+.deliveryStatusGreen,
+.deliveryStatusRed {
+    display: flex;
+    gap: 5px;
+}
+
+.sellerName{
+    color: #3483fa;
+}
+.sellerName:hover{
+    text-decoration: underline;
+}
+
+.itemDetails{
+    grid-area: item-details;
+
+}
+
+.itemDetails p{
+    margin: 15px 0;
+}
+
+.itemSaleDetails{
+    font-size: 12px;
+    grid-area: item-sale-details;
+    text-align: end;
+}
+.circleIcon{
+    border-radius: 50%;
+    height: 16px;
+    width: 16px;
+    background: red;
+}
+
+.goBackBar{
+    margin: 20px 7%;
+}
+
+.goBackBar a:hover {
+    color: #3483fa;
+    text-decoration: underline;
+}
+
+@media only screen and (max-width: 600px) {
+    .boughtItem {
+        display: grid;
+        padding: 20px;
+        gap: 30px;
+        grid-template-areas: 
+            "item-image"
+            "item-details"
+            "item-sale-details";
+    }
+
+    .itemSaleDetails{
+        text-align: initial;
+    }
 }

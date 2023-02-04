@@ -22,6 +22,7 @@
   
 .itemMoreDetails {
     margin: auto 30px auto auto;  
+    text-align: center;
 }
   
 .priceNumber{
@@ -34,4 +35,91 @@
     background-color: white;
     border-radius: 4px;
     display: flex;
+}
+
+.limitBox {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.paginationTop{
+    display: none;
+    justify-content: center;
+}
+
+.paginationButton {
+    width: 40px;
+    height: 40px;
+    border: 1px solid white;
+    background-color: #3583fa;
+    text-align: center;
+    cursor: pointer;
+}
+
+.paginationButton p{
+    margin-top: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+.itemDetailInfo h2,
+.itemDetailInfo p {
+    font-weight: 300;
+}
+
+.goUpArrow{
+    position: sticky;
+    top: 20px;
+    cursor: pointer;
+    text-align: end;
+    margin: 20px;
+}
+
+.goUpArrow img{
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px;
+    box-shadow: 0 7px 16px 0 rgba(0,0,0,.2),0 1px 3px 0 rgba(0,0,0,.1);
+}
+
+
+@media only screen and (max-width: 600px) {
+    .buyItemContent{
+        margin: 15px 0;
+        border-bottom: 1px solid #bebebe;
+        padding: 15px;
+    }
+    .itemContainer{
+        margin: 20px 0;
+        display: flex;
+        flex-direction: column;
+    }
+    .productImage{
+        max-width: initial;
+        width: 60%;
+        height: auto;
+        margin: 0 auto;
+    }
+    .itemDetailInfo{
+        margin: 20px 0;
+    }
+    .itemDetailInfo p,
+    .itemDetailInfo h2{
+        margin: 0;
+    }
+    .itemMoreDetails {
+        margin: initial;
+    }
+    .pagination,
+    .paginationTop{
+        display: flex;
+        margin: 10px 0;
+    }
+
 }

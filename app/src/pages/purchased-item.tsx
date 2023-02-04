@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
-import puchasedItemStyles from '../styles/purchased-item.module.css';
-import { UserContext } from './_app';
 
+import puchasedItemStyles from '../styles/purchased-item.module.css';
+import { TruckSVG } from '@/assets/dynamicSVG/truck';
+import greenIconSVG from '../assets/greenIcon.svg';
+import warningIconSVG from '../assets/warningIcon.svg';
 
 interface PurchasedItemProps {
     item: PurchasedItem,
@@ -42,26 +42,37 @@ export default function PurchasedItem({ item, paymentStatusData, shipmentStatusD
     const rejectedShipment = shipmentStatusData.estado === 'rechazada';
 
     return (
-        <section className={puchasedItemStyles.mainBodyContent}>
-            <div className={puchasedItemStyles.boughItem}>
-                <img className={puchasedItemStyles.itemImg} src={item?.imagen}></img>
-                <div className="item-details">
-                    <h2>{item?.titulo}</h2>
-                    <p>Precio: <span className={puchasedItemStyles.priceNumber}>{item?.precio?.total} {item?.precio?.moneda}</span></p>
-                    <p>{item?.cantidad} {item?.cantidad > 1 ? 'Unidades' : 'Unidad'}</p>
-                    <p>ID de Compra #{item?.id_compra}</p>
-                    <p>Vendedor: {item?.vendedor?.nickname}</p>
-                    <p>Comprado el {item?.fecha}</p>
-                    
-                    <p className={ rejectedPayment  ? puchasedItemStyles.paymentStatusGreen : puchasedItemStyles.paymentStatusRed}>
-                        Pago {rejectedPayment ? 'Rechazado' : 'Aprobado'}
-                    </p>
-                    <p className={ rejectedShipment  ? puchasedItemStyles.deliveryStatusGreen : puchasedItemStyles.deliveryStatusRed}>
-                        Pago {rejectedShipment ? 'Rechazado' : 'Aprobado'}
-                    </p>
-                </div>
+        <>
+            <div className={puchasedItemStyles.goBackBar}>
+                <a href={`/purchase-list`}>Volver al listado</a>
             </div>
-        </section>
+            <section className={puchasedItemStyles.mainBodyContent}>
+                <div className={puchasedItemStyles.boughtItem}>
+                    <img className={puchasedItemStyles.itemImg} src={item?.imagen}></img>
+                    <div className={puchasedItemStyles.itemDetails}>
+                        <h2 className={puchasedItemStyles.itemTitle}>{item?.titulo}</h2>
+                        <p>Precio: <span className={puchasedItemStyles.priceNumber}>{item?.precio?.total} {item?.precio?.moneda}</span></p>
+                        <p>{item?.cantidad} {item?.cantidad > 1 ? 'Unidades' : 'Unidad'}</p>
+                            
+
+                        <p className={ rejectedPayment  ? puchasedItemStyles.paymentStatusRed : puchasedItemStyles.paymentStatusGreen}>
+                            <Image src={ rejectedPayment ? warningIconSVG : greenIconSVG} alt="Icon" priority />
+                            Pago {rejectedPayment ? 'Rechazado' : 'Aprobado'}
+                        </p>
+                        <p className={ rejectedShipment  ? puchasedItemStyles.deliveryStatusRed : puchasedItemStyles.deliveryStatusGreen}>
+                            <TruckSVG approved={!rejectedPayment} />
+                            Envio {rejectedShipment ? 'Rechazado' : 'Aprobado'}
+                        </p>
+                    </div>
+
+                    <div className={puchasedItemStyles.itemSaleDetails}>
+                        <p>Compra #{item?.id_compra}</p>
+                        <p>Vendido por <a href="#" className={puchasedItemStyles.sellerName}>{item?.vendedor?.nickname}</a></p>
+                        <p>Comprado el {item?.fecha}</p>
+                    </div>
+                </div>
+            </section>
+        </>
     );
 }
 
