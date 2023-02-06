@@ -40,8 +40,6 @@ export default function PurchaseList({ total, offset, limit, itemList }: Props) 
     const [purchasedListOffset, setpurchasedListOffset ] = useState<number>(offset);
 
     const getItems = (newOffset: number, newLimit: number) => {
-        console.info("offset", newOffset);
-        console.info("limit", newLimit);
 
         fetch(`http://localho.st:8050/purchased-list`, {
             method: 'POST',
