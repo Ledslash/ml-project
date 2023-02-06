@@ -1,6 +1,6 @@
 export = {
     REDIS: {
-        USE_CACHE: false,
+        USE_CACHE: true,
         PORT: 6379,
         HOST: "127.0.0.1",
         USERNAME: "",

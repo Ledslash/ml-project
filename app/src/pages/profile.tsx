@@ -53,6 +53,9 @@ export async function getServerSideProps() {
         const PROFILE_PATH = config.default.BACKEND.SERVICE_PATHS.PROFILE;
 
         const res = await fetch(`${SSR_HOST}:${PORT}/${PROFILE_PATH}`);
+        if(res.status === 500){
+            throw new Error("Service Error");
+        }
         const user = await res.json()
         return { props: { user } }
     } catch (e: any){

@@ -50,7 +50,7 @@ export default function PurchasedItem({ item, paymentStatusData, shipmentStatusD
     return (
         <>
             <div className={puchasedItemStyles.goBackBar}>
-                <a href={`/purchase-list`}>Volver al listado</a>
+                <a href={`/purchase-list?offset=0&limit=10`}>Volver al listado</a>
             </div>
             <section className={puchasedItemStyles.mainBodyContent}>
                 <div className={puchasedItemStyles.boughtItem}>
@@ -100,8 +100,10 @@ export async function getServerSideProps(context: any) {
                 numero_compra: parseInt(itemNumber, 10)
             })
         })
+        if(res.status === 500){
+            throw new Error("Service Error");
+        }
         const purchasedItemDetail = await res.json();
-
         return { props: purchasedItemDetail }
     } catch (e: any){
         return { props: {error: e.message} }

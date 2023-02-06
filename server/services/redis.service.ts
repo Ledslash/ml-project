@@ -2,9 +2,7 @@ import { Redis } from 'ioredis';
 import { config } from '../config/config';
 
 const REDIS = config.REDIS;
-const USE_CACHE = config.REDIS.USE_CACHE === "true";
-
-console.info("using cache", USE_CACHE);
+const USE_CACHE = config.REDIS.USE_CACHE === "true" || config.REDIS.USE_CACHE === true;
 
 let client: any;
 

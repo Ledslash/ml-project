@@ -39,5 +39,6 @@ export const itemInfo = async function(req: Request, res: Response){
 
     } catch(e) {
         console.info(e);
+        res.status(500).send('Error');
     }
 }

@@ -67,6 +67,7 @@ export default function PurchaseList({ total, offset, limit, itemList, error }: 
             }
             setpurchasedItemList(json.itemList)
         })
+        .catch(e => console.info(e))
     }
 
     let offsetNumber = offset;
@@ -77,8 +78,8 @@ export default function PurchaseList({ total, offset, limit, itemList, error }: 
     };
 
     // Make limit options
-    for (let index = 1; index <= total; index++) {
-        options.push(<option key={index} value={index} selected={limit === index} >{index}</option>)
+    for (let index = 1; index <= 10; index++) {
+        options.push(<option key={index} value={index} selected={limit >= index} >{index}</option>)
     }
 
     let pagesNumber = Math.ceil(total / purchasedListLimit);
@@ -158,7 +159,11 @@ export async function getServerSideProps(context: any) {
                 limit
             })
         });
+        if(res.status === 500){
+            throw new Error("Service Error");
+        }
         const purchasedItemsList = await res.json()
+        console.info("Items", purchasedItemsList.itemList)
         return { props: purchasedItemsList }
     } catch (e: any){
         return { props: {error: e.message} }

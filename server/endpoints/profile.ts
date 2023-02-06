@@ -36,5 +36,6 @@ export const profile = async function(_req: Request, res: Response){
         res.status(200).json(userData);
     } catch(e) {
         console.info(e);
+        res.status(500).send('Error');
     }
 }

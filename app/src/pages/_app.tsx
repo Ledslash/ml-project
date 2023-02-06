@@ -50,7 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
                             <Image src={profileSvg} alt="Profile Icon SVG" priority />
                             <p>Informacion General</p>
                         </a>
-                        <a className={sidebarStyles.sidebarItem} href={`/purchase-list`}>
+                        <a className={sidebarStyles.sidebarItem} href={`/purchase-list?offset=0&limit=10`}>
                             <Image src={bagSvg} alt="Bag SVG" priority />
                             <p>Mis Compras</p>
                         </a>

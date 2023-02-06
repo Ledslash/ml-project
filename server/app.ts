@@ -36,7 +36,7 @@ function onError(error: any) {
 
 
 const app = express();
-if(config.EXPRESS.ALLOW_CORS === "true"){
+if(config.EXPRESS.ALLOW_CORS === "true" || config.EXPRESS.ALLOW_CORS === true){
     app.use(cors());
 }
 app.use(express.json());
