@@ -5,6 +5,7 @@ import purchaseListStyle from '../styles/purchase-list.module.css'
 import styles from '../styles/index.module.css'
 import { useState } from 'react';
 import upArrowSVG from '../assets/upArrow.svg';
+import { config } from '../config/config';
 
 interface PurchasedItemList {
     id_compra: number;
@@ -29,9 +30,14 @@ interface Props {
     offset: number;
     limit: number;
     itemList: PurchasedItemList[]
+    error?: string;
 }
 
-export default function PurchaseList({ total, offset, limit, itemList }: Props) {
+export default function PurchaseList({ total, offset, limit, itemList, error }: Props) {
+
+    if(error){
+        throw new Error(error);
+    }
 
     const router = useRouter();
     
@@ -111,7 +117,7 @@ export default function PurchaseList({ total, offset, limit, itemList }: Props) 
                 </div>
 
                 {purchasedItemList.map((item) => {
-                const itemDetailLink = `/purchased-item?id_trx=${item.id_transaccion}&id_envio=${item.id_envio}&itemNumber=${offsetNumber}`;
+                const itemDetailLink = `/purchased-item?itemNumber=${offsetNumber}`;
                 offsetNumber++;
                 return (
                     <div key={item.id_compra} className={purchaseListStyle.itemContainer}>
@@ -136,19 +142,25 @@ export default function PurchaseList({ total, offset, limit, itemList }: Props) 
 }
 
 export async function getServerSideProps(context: any) {
+    try{
+        const { offset, limit } = context.query;
+        const SSR_HOST = config.default.BACKEND.SSR_HOST;
+        const PORT = config.default.BACKEND.PORT;
+        const PURCHASE_LIST_PATH = config.default.BACKEND.SERVICE_PATHS.PURCHASE_LIST;
 
-    const { offset, limit } = context.query;
-
-    const res = await fetch(`http://localhost:8050/purchased-list`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            offset,
-            limit
-        })
-    });
-    const purchasedItemsList = await res.json()
-    return { props: purchasedItemsList }
+        const res = await fetch(`${SSR_HOST}:${PORT}/${PURCHASE_LIST_PATH}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                offset,
+                limit
+            })
+        });
+        const purchasedItemsList = await res.json()
+        return { props: purchasedItemsList }
+    } catch (e: any){
+        return { props: {error: e.message} }
+    }
 }

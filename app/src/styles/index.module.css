@@ -16,6 +16,18 @@
   background-color: #ebebeb;
 }
 
+.centeredBody{
+  margin: 7%;
+  background-color: white;
+  border-radius: 4px;
+  grid-area: main;
+  height: 50%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .blueBtn{
   background-color: #3483fa;
   border-color: transparent;

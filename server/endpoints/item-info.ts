@@ -1,11 +1,10 @@
 
 import {Request, Response} from 'express';
 import { getItemsInCache } from '../services/item-list-cache';
+import MercadolibreService from '../services/mercadolibre-service';
 
-const MercadolibreService = require('../../../MercadolibreService/MercadolibreService');
 import { getUserCache, setUserCache } from '../services/user-cache';
 import { PaymentStatus, ShipmentStatus } from '../shared/interfaces';
-
 
 export const itemInfo = async function(req: Request, res: Response){
     
@@ -22,7 +21,7 @@ export const itemInfo = async function(req: Request, res: Response){
         let item;
 
         if(cachedItems){
-            item = cachedItems.itemList.filter( (item: any) => item.id  === req.body.numero_compra);
+            item = cachedItems.itemList.filter( (item: any) => item.id  === req.body.numero_compra)[0];
         }
         else {
             let puchaseList = await MLService.getUserPurchases(userInfo.id_usuario, 1, req.body.numero_compra);

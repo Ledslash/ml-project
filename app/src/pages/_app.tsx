@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import Image from 'next/image'
 import { Montserrat } from '@next/font/google'
+import { useState } from 'react'
 
 // Styles
 import styles from '../styles/index.module.css';
@@ -12,32 +13,15 @@ import sidebarStyles from '../styles/sidebar.module.css';
 // Images
 import profileSvg from '../assets/profile.svg';
 import bagSvg from '../assets/bag.svg';
-import { createContext, useState } from 'react'
 import burgerMenuSVG from '../assets/burgerMenu.svg';
+import { ErrorBoundary } from '@/shared/errorBoundary'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
-
-interface UserContextInterface {
-  id_usuario: null | number;
-  updateUsuario: (userId: number) => void; 
-
-}
-
-export const UserContext = createContext({});
 
 
 export default function App({ Component, pageProps }: AppProps) {
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  
-  const changeUser = (userId: number) => {
-    setUserState(() => {
-      return{
-        id_usuario: userId,
-        updateUsuario: changeUser
-      }
-  })}
-  const [userState, setUserState] = useState<UserContextInterface>({ id_usuario: null, updateUsuario: changeUser })
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <>
@@ -73,9 +57,9 @@ export default function App({ Component, pageProps }: AppProps) {
                   </div>
                 </section>
                 <section className={styles.mainBody}>
-                  <UserContext.Provider value={userState}>
-                    <Component {...pageProps} />
-                  </UserContext.Provider>
+                    <ErrorBoundary >
+                      <Component {...pageProps } />
+                    </ErrorBoundary>
                 </section>
             </div>
         </main>

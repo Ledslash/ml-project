@@ -1,25 +1,5 @@
 version: '3.7'
-services:  
-
-  front_mercadolibre:
-    image: ml-front:latest
-    ports:
-      - 3000:3000
-    depends_on:
-      - cache
-      - server_mercadolibre
-    env_file:
-      - ./front.conf
-
-  server_mercadolibre:
-    image: mlibre-api:latest
-    ports:
-      - 8050:8050
-    depends_on:
-      - cache
-    env_file:
-      - ./server.conf
-  
+services: 
   cache:
     image: redis:6.2-alpine
     restart: always

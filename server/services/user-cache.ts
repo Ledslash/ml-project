@@ -1,16 +1,12 @@
-import { Redis } from 'ioredis';
+import { config } from '../config/config';
+import { client } from './redis.service';
 import { FullUserInterface } from '../shared/interfaces';
+const USER_INFO_KEY = config.REDIS.KEYS.USER_INFO_KEY;
+const USE_CACHE = config.REDIS.USE_CACHE;
 
-const client = new Redis({
-        port: 6379,
-        host: "127.0.0.1", // Redis host
-        username: "", // needs Redis >= 6
-        password: "eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81",
-});
 
 export const getUserCache = async function(){
-    const userInfoRedis = await client.get('userInfo');
-
+    const userInfoRedis = await client.get(USER_INFO_KEY);
     if(userInfoRedis){
         return JSON.parse(userInfoRedis);
     }
@@ -18,5 +14,5 @@ export const getUserCache = async function(){
 }
 
 export const setUserCache = async function(userInfo: FullUserInterface){
-    await client.set('userInfo', JSON.stringify(userInfo));
+    await client.set(USER_INFO_KEY, JSON.stringify(userInfo));
 }

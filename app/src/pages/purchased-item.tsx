@@ -4,6 +4,7 @@ import puchasedItemStyles from '../styles/purchased-item.module.css';
 import { TruckSVG } from '@/assets/dynamicSVG/truck';
 import greenIconSVG from '../assets/greenIcon.svg';
 import warningIconSVG from '../assets/warningIcon.svg';
+import { config } from '../config/config';
 
 interface PurchasedItemProps {
     item: PurchasedItem,
@@ -15,6 +16,7 @@ interface PurchasedItemProps {
         id_envio: number;
         estado: string;
     }
+    error?: string
 }
 
 interface PurchasedItem {
@@ -36,7 +38,11 @@ interface PurchasedItem {
 }
 
 
-export default function PurchasedItem({ item, paymentStatusData, shipmentStatusData }: PurchasedItemProps) {
+export default function PurchasedItem({ item, paymentStatusData, shipmentStatusData, error }: PurchasedItemProps) {
+
+    if(error){
+        throw new Error(error);
+    }
 
     const rejectedPayment = paymentStatusData.estado === 'rechazada';
     const rejectedShipment = shipmentStatusData.estado === 'rechazada';
@@ -60,7 +66,7 @@ export default function PurchasedItem({ item, paymentStatusData, shipmentStatusD
                             Pago {rejectedPayment ? 'Rechazado' : 'Aprobado'}
                         </p>
                         <p className={ rejectedShipment  ? puchasedItemStyles.deliveryStatusRed : puchasedItemStyles.deliveryStatusGreen}>
-                            <TruckSVG approved={!rejectedPayment} />
+                            <TruckSVG approved={!rejectedShipment} />
                             Envio {rejectedShipment ? 'Rechazado' : 'Aprobado'}
                         </p>
                     </div>
@@ -77,18 +83,27 @@ export default function PurchasedItem({ item, paymentStatusData, shipmentStatusD
 }
 
 export async function getServerSideProps(context: any) {
-    const { id_trx, id_envio, itemNumber } = context.query;
 
-    const res = await fetch(`http://localho.st:8050/item-info`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            numero_compra: itemNumber
+    try{
+        const { itemNumber } = context.query;
+
+        const SSR_HOST = config.default.BACKEND.SSR_HOST;
+        const PORT = config.default.BACKEND.PORT;
+        const ITEM_INFO_PATH = config.default.BACKEND.SERVICE_PATHS.ITEM_INFO;
+
+        const res = await fetch(`${SSR_HOST}:${PORT}/${ITEM_INFO_PATH}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                numero_compra: parseInt(itemNumber, 10)
+            })
         })
-    })
-    const purchasedItemDetail = await res.json()
+        const purchasedItemDetail = await res.json();
 
-    return { props: purchasedItemDetail }
+        return { props: purchasedItemDetail }
+    } catch (e: any){
+        return { props: {error: e.message} }
+    }
 }

@@ -1,41 +1,40 @@
 
 import {Request, Response} from 'express';
 
-import { UserData, UserRestrictions, UserLevel, FullUserInterface } from '../shared/interfaces';
+import { UserRestrictions, UserLevel, FullUserInterface } from '../shared/interfaces';
 import { getUserCache, setUserCache } from '../services/user-cache';
-const MercadolibreService = require('../../../MercadolibreService/MercadolibreService');
+import MercadolibreService from '../services/mercadolibre-service';
 
 
 export const profile = async function(_req: Request, res: Response){
 
     try {
-        let user = await getUserCache();
+        let userData: FullUserInterface = await getUserCache();
+        let MLService = new MercadolibreService()
+
         let levelDescription: UserLevel;
         let userRestrictions: UserRestrictions;
-        let userResponse: FullUserInterface;
-        if(!user){
-            const MLService = new MercadolibreService()
-            const user: UserData = await MLService.getUser();
+
+        if(!userData){
+            userData = await MLService.getUser();
+        }
+        if(!userData.levelData || !userData.restrictionData){
 
             const promiseCluster = await Promise.all([
-                MLService.getUserRestrictions(user.id_usuario),
-                MLService.getLevel(user.nivel)])
+                MLService.getUserRestrictions(userData.id_usuario),
+                MLService.getLevel(userData.nivel)])
             
             userRestrictions = promiseCluster[0];
             levelDescription = promiseCluster[1];
-            userResponse = {
-                ...user,
+            userData = {
+                ...userData,
                 levelData: levelDescription,
                 restrictionData: userRestrictions
             }
-            await setUserCache(userResponse);
-            return res.status(200).json(userResponse);
         }
-
-        res.status(200).json(user);
+        setUserCache(userData);
+        res.status(200).json(userData);
     } catch(e) {
         console.info(e);
     }
-
-
 }

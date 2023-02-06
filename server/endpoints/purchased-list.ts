@@ -1,4 +1,4 @@
-const MercadolibreService = require('../../../MercadolibreService/MercadolibreService');
+import MercadolibreService from '../services/mercadolibre-service';
 
 import {Request, Response} from 'express';
 import { getUserCache, setUserCache } from '../services/user-cache';
@@ -6,8 +6,11 @@ import { FullUserInterface, PurchaseList } from '../shared/interfaces';
 
 import { getItemsInCache, saveItemsInCache } from '../services/item-list-cache';
 
+import { config } from '../config/config';
 
 export const purchasedList = async function(req: Request, res: Response){
+
+    console.info("using cache", config.REDIS.USE_CACHE);
 
     const { offset, limit } = req.body;
 
@@ -22,6 +25,7 @@ export const purchasedList = async function(req: Request, res: Response){
 
     let cachedItems: any = await getItemsInCache(userInfo.id_usuario);
 
+    console.info("cached items", cachedItems)
     if(cachedItems){
         let cachedGroup = {
             offset: offset,

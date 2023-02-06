@@ -1,19 +1,13 @@
-import { Redis } from 'ioredis';
-
-const client = new Redis({
-    port: 6379,
-    host: "127.0.0.1", // Redis host
-    username: "", // needs Redis >= 6
-    password: "eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81",
-});
-
+import { config } from '../config/config';
+import { client } from './redis.service';
+const ITEM_LIST_KEY = config.REDIS.KEYS.ITEM_LIST_KEY;
 
 const saveItemsInRedis = async (purchaseList: any, userId: number) => {
-    await client.set(`itemList-${userId}`, `${JSON.stringify(purchaseList)}`);
+    await client.set(`${ITEM_LIST_KEY}-${userId}`, `${JSON.stringify(purchaseList)}`);
 }
 
 export const getItemsInCache = async (userId: number) => {
-    const cache = await client.get(`itemList-${userId}`);
+    const cache = await client.get(`${ITEM_LIST_KEY}-${userId}`);
     if(cache){
         return JSON.parse(cache);
     }
@@ -39,7 +33,6 @@ export const saveItemsInCache = async (purchaseList: any, userId: number) => {
             }
         }
     }
-
 
     if(cachedItems){
         saveItemsInRedis(cachedItems, userId);

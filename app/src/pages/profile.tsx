@@ -1,19 +1,26 @@
 import Image from 'next/image'
-
 import { Inter } from '@next/font/google'
+
 import { UserInfo } from '@/shared/interaces';
 
 import profileStyles from '../styles/profile.module.css';
 import xIcon from '../assets/xicon.png';
 
+import { config } from '../config/config';
+
 const inter = Inter({ subsets: ['latin'] })
 
 
 interface Props {
-    user: UserInfo
+    user: UserInfo;
+    error?: string;
 }
 
-export default function Profile({ user }: Props) {
+export default function Profile({ user, error }: Props) {
+
+    if(error){
+        throw new Error(error);
+    }
 
     const hasRestrictionWarning = user.restrictionData[0].tipo === 'warning';
     return (
@@ -40,8 +47,15 @@ export default function Profile({ user }: Props) {
 }
 
 export async function getServerSideProps() {
-    const res = await fetch(`http://localho.st:8050/profile`);
-    const user = await res.json()
-  
-    return { props: { user } }
+    try{
+        const SSR_HOST = config.default.BACKEND.SSR_HOST;
+        const PORT = config.default.BACKEND.PORT;
+        const PROFILE_PATH = config.default.BACKEND.SERVICE_PATHS.PROFILE;
+
+        const res = await fetch(`${SSR_HOST}:${PORT}/${PROFILE_PATH}`);
+        const user = await res.json()
+        return { props: { user } }
+    } catch (e: any){
+        return { props: {error: e.message} }
+    }
 }
