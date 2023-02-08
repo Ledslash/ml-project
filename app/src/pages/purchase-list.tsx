@@ -70,7 +70,7 @@ export default function PurchaseList({ total, offset, limit, itemList, error }: 
         .catch(e => console.info(e))
     }
 
-    let offsetNumber = offset;
+    let offsetNumber = purchasedListOffset;
     let options = [];
 
     const changePaginationLimit = (value: string) => {
