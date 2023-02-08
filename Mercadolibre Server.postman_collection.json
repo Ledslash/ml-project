@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "89bb4413-e8a5-454d-bbd0-768084f805f6",
+		"name": "Mercadolibre Server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getUserProfile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8050/profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8050",
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUserPurchaseList",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"offset\": 0,\n    \"limit\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localho.st:8050/purchased-list",
+					"protocol": "http",
+					"host": [
+						"localho",
+						"st"
+					],
+					"port": "8050",
+					"path": [
+						"purchased-list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getItemInfo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"numero_compra\": 0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8050/item-info",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8050",
+					"path": [
+						"item-info"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
